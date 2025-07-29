@@ -1,11 +1,13 @@
-import React, { useRef, useEffect, ReactElement } from 'react';
+import React, { useRef, useEffect } from 'react';
+import { Text, Animated } from 'react-native';
+import { useFadeIn } from '../utils/useFadeIn';
 
 interface TokenWithSource {
   text: string;
   source: number;
 }
 
-type TokenType = string | TokenWithSource | ReactElement;
+type TokenType = string | TokenWithSource | React.ReactElement;
 
 const TokenizedText = ({ input, sep, animation, animationDuration, animationTimingFunction, animationIterationCount }: any) => {
     // Track previous input to detect changes
@@ -107,17 +109,13 @@ const TokenizedText = ({ input, sep, animation, animationDuration, animationTimi
                     return React.cloneElement(token, { key });
                 }
                 
+                const { opacity } = useFadeIn(1000);
                 return (
-                    <span key={key} style={{
-                        animationName: animation,
-                        animationDuration,
-                        animationTimingFunction, 
-                        animationIterationCount,
-                        whiteSpace: 'pre-wrap',
-                        display: 'inline-block',
+                    <Animated.Text key={key} style={{
+                        opacity
                     }}>
                         {text}
-                    </span>
+                    </Animated.Text>
                 );
             })}
         </>
